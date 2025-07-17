@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import re
-from random import choices
+from random import choices, sample
 
 # Helper to convert decimal odds to American odds
 def decimal_to_american(decimal_odds):
@@ -80,11 +80,12 @@ if st.session_state['random_bets']:
     st.subheader(f"Randomized User Bet History ({N_RANDOM_BETS} bets):")
     st.dataframe(pd.DataFrame(st.session_state['random_bets']))
     st.write("These bet types will be used for recommendations.")
-    if st.button("Get Recommendations"):
-        bet_type_df = pd.DataFrame(st.session_state['random_bets'])
-        # Recommend the top 10 most frequent bet types
-        top_bet_types = bet_type_df['bet_type'].value_counts().head(10).index.tolist()
-        st.subheader("Top 10 Predicted Betting Markets for You:")
+    bet_type_df = pd.DataFrame(st.session_state['random_bets'])
+    all_bet_types = user_bets_df['bet_type'].unique()
+    top_bet_types = bet_type_df['bet_type'].value_counts().head(10).index.tolist()
+    # --- 10 Recommendations ---
+    if st.button("Show 10 Recommendations"):
+        st.subheader("Top 10 Personalized Betting Markets for You:")
         for bet_type in top_bet_types:
             example = next((bet for bet in st.session_state['random_bets'] if bet['bet_type'] == bet_type), None)
             if example is not None:
@@ -99,9 +100,40 @@ if st.session_state['random_bets']:
                             'event': example['event'],
                             'odds': decimal_to_american(example['odds'])
                         })
-        if st.session_state['betslip']:
-            st.subheader("Your Betslip")
-            betslip_df = pd.DataFrame(st.session_state['betslip'])
-            st.dataframe(betslip_df)
+    # --- 5 Explore ---
+    if st.button("Show 5 Explore Bets"):
+        st.subheader("Explore New or Random Betting Markets:")
+        # Find bet types not in top 10, or if not enough, sample from all
+        explore_candidates = [bt for bt in all_bet_types if bt not in top_bet_types]
+        if len(explore_candidates) >= 5:
+            explore_bet_types = sample(list(explore_candidates), 5)
+        else:
+            # If not enough new, fill with random from all bet types
+            explore_bet_types = list(explore_candidates)
+            needed = 5 - len(explore_bet_types)
+            remaining = [bt for bt in all_bet_types if bt not in explore_bet_types]
+            if remaining:
+                explore_bet_types += list(np.random.choice(remaining, needed, replace=False))
+        for bet_type in explore_bet_types:
+            # Try to find an example in the random bets, else in all history
+            example = next((bet for bet in st.session_state['random_bets'] if bet['bet_type'] == bet_type), None)
+            if example is None:
+                example = user_bets_df[user_bets_df['bet_type'] == bet_type].iloc[0]
+            with st.container():
+                st.markdown(f"### {bet_type}")
+                st.markdown(f"**{example['sport']} {example['league']} {example['event']}** | American Odds: {decimal_to_american(example['odds'])}")
+                if st.button("Add to Betslip", key=f"explore_betslip_{bet_type}_{example['event']}"):
+                    st.session_state['betslip'].append({
+                        'bet_type': bet_type,
+                        'sport': example['sport'],
+                        'league': example['league'],
+                        'event': example['event'],
+                        'odds': decimal_to_american(example['odds'])
+                    })
+    # Show betslip
+    if st.session_state['betslip']:
+        st.subheader("Your Betslip")
+        betslip_df = pd.DataFrame(st.session_state['betslip'])
+        st.dataframe(betslip_df)
 else:
     st.info(f"Use the sliders in the sidebar to set your sport preferences, then click 'Randomize {N_RANDOM_BETS} Bets'.") 
