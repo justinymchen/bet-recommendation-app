@@ -1,0 +1,21 @@
+user_id,sport,league,event,bet_type,player,team,odds,result,expert
+1,Basketball,NBA,Lakers vs Warriors,Over/Under,LeBron James,Lakers,1.9,win,False
+2,Basketball,NBA,Nets vs Bucks,Moneyline,Kevin Durant,Nets,2.1,lose,False
+3,Football,Premier League,Man City vs Chelsea,First Goal Scorer,Erling Haaland,Man City,3.5,win,False
+4,Football,Premier League,Liverpool vs Arsenal,Over/Under,Mohamed Salah,Liverpool,1.8,win,False
+5,Tennis,ATP,Wimbledon Final,Set Betting,Rafael Nadal,,2.2,win,False
+6,Basketball,NBA,Lakers vs Celtics,Player Points,LeBron James,Lakers,2.0,lose,True
+7,Basketball,NBA,Bulls vs Heat,Moneyline,Jimmy Butler,Heat,1.7,win,True
+8,Football,La Liga,Real Madrid vs Barca,Over/Under,Karim Benzema,Real Madrid,1.9,win,True
+9,Football,Serie A,Juventus vs Inter,First Goal Scorer,Cristiano Ronaldo,Juventus,4.0,lose,True
+10,Tennis,WTA,US Open Final,Set Betting,Serena Williams,,2.5,win,True
+11,Basketball,NBA,Lakers vs Warriors,Player Points,Anthony Davis,Lakers,2.1,win,False
+12,Football,Premier League,Man Utd vs Tottenham,Moneyline,Harry Kane,Tottenham,2.3,lose,False
+13,Basketball,NBA,Heat vs Raptors,Over/Under,Bam Adebayo,Heat,1.8,win,False
+14,Football,La Liga,Atletico vs Sevilla,Moneyline,Joao Felix,Atletico,2.0,win,False
+15,Tennis,ATP,Australian Open Final,Set Betting,Novak Djokovic,,1.9,win,False
+16,Basketball,NBA,Celtics vs Bucks,Player Points,Jayson Tatum,Celtics,2.2,lose,True
+17,Football,Premier League,Leicester vs Everton,First Goal Scorer,Jamie Vardy,Leicester,3.8,win,True
+18,Football,La Liga,Valencia vs Villarreal,Over/Under,Gerard Moreno,Villarreal,1.7,win,True
+19,Tennis,WTA,French Open Final,Set Betting,Simona Halep,,2.3,lose,True
+20,Basketball,NBA,Clippers vs Suns,Moneyline,Chris Paul,Suns,1.6,win,True 
