@@ -25,8 +25,19 @@ user_bets_df = load_bets()
 
 st.title("Personalized Betting Market Recommendation Engine")
 
-# --- Sport Distribution Sliders ---
-sports = sorted(user_bets_df['sport'].unique())
+# --- Limit to 8 sports ---
+allowed_sports = [
+    "Basketball",
+    "Football",
+    "Tennis",
+    "Golf",
+    "Baseball",
+    "American Football",
+    "eSports",
+]
+# Only include these sports if present in the data
+sports = [s for s in allowed_sports if s in user_bets_df['sport'].unique()]
+
 st.sidebar.header("Randomized Bet Distribution by Sport")
 sport_weights = {}
 total_weight = 0
